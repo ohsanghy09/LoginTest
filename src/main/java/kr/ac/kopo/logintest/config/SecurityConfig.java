@@ -35,19 +35,15 @@ public class SecurityConfig {
 //    }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception{
+    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeHttpRequests((auth) -> {
-            //sample/all은 아무나 다 접근할 수 있도록 하기 위함
-            auth.requestMatchers("/sample/all").permitAll();
-            auth.requestMatchers("/sample/member").hasRole("USER");
+            auth.requestMatchers("/sample/all").permitAll(); // 누구나 접근 가능
+            auth.requestMatchers("/sample/member").hasRole("USER"); // ROLE_USER 권한 필요
         });
 
-        // 이거 에러 아님
-        httpSecurity.formLogin();
-        httpSecurity.csrf().disable();
-        httpSecurity.logout();
-
-
+        httpSecurity.formLogin(); // 기본 로그인 페이지 활성화
+        httpSecurity.csrf().disable(); // 테스트 환경에서 CSRF 비활성화
+        httpSecurity.logout(); // 기본 로그아웃 활성화
 
         return httpSecurity.build();
 
